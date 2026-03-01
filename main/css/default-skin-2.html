@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+    <title>403 Forbidden - Apache</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f1f4f5;
+            color: #37474f;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .container {
+            display: flex;
+            width: 535px;
+        }
+        .container-code{
+            min-width: 250px;
+            text-align: center;
+        }
+        .container-text {
+            min-width: 250px;
+            padding-left: 20px;
+        }
+        .error_code {
+            display: block;
+            font-size: 92px;
+            font-weight: 700;
+            margin-top: -25px;
+        }
+        .error_brief {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .help_button {
+            background-color: #399bff;
+            color: #fff;
+            margin-top: 15px;
+            font-size: 14px;
+            padding: 7px 20px 7px 20px;
+            border: none;
+            border-radius: 3px;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+        #fix_details {
+            margin-top: 20px;
+            visibility: hidden;
+            transition: visibility 0.3s, opacity 0.3s linear;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+            .container-text{
+                padding: 30px;
+                text-align: center;
+                min-width: auto;
+            }
+            .container-code{
+                min-width: auto;
+                text-align: center;
+                margin-top: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+<script>
+    function toggleHelp() {
+        document.getElementById("fix_details").style.visibility = 'visible';
+        document.getElementById("fix_details").style.opacity = '1';
+
+        document.querySelectorAll('.hide-help').forEach(function (el){
+            if (undefined !== el){
+                el.style.display = 'none';
+            }
+        });
+    }
+</script>
+<div class="container">
+    <div class="container-code">
+        <span class="error_code">403</span>
+        <span class="error_description">Forbidden</span>
+    </div>
+
+    <div class="container-text">
+        <span class="error_brief">В доступі відмовлено</span>
+        <span class="error_detail">Можливо, не завантажений індексний файл або неправильно вказані права для нього.</span>
+        <br class="hide-help"/>
+        <input type="button" value="Як це виправити?" class="help_button hide-help" onclick="toggleHelp()">
+
+        <div id="fix_details">
+            Якщо Ви адміністратор сайту, виправити цю помилку допоможе стаття
+            <a href="https://www.ukraine.com.ua/wiki/hosting/errors/403/">Помилка 403 Forbidden</a> в нашій довідці.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
