@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CINÉMA — Detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c14;
+    --surface: #0e1420;
+    --surface2: #141b2a;
+    --border: rgba(255,255,255,0.07);
+    --accent: #e8b84b;
+    --accent2: #ff6b35;
+    --text: #f0f4ff;
+    --muted: #6b7a9a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden; }
+
+  /* HEADER */
+  header {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 40px; height:70px;
+    background:rgba(8,12,20,0.95);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+  }
+  .logo { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:6px; color:var(--accent); text-decoration:none; }
+  .logo span { color:var(--text); }
+  nav { display:flex; gap:8px; align-items:center; }
+  .nav-btn { background:none; border:none; color:var(--muted); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; padding:8px 16px; border-radius:6px; cursor:pointer; transition:all 0.2s; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
+  .nav-btn:hover { color:var(--text); background:var(--surface2); }
+  .watchlist-badge { background:var(--accent); color:#000; font-size:10px; font-weight:700; padding:2px 6px; border-radius:10px; }
+
+  /* BACK BAR */
+  .back-bar {
+    margin-top:70px;
+    padding:14px 40px;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:10px;
+  }
+  .back-btn { background:none; border:none; color:var(--muted); font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:6px; transition:color 0.2s; padding:0; }
+  .back-btn:hover { color:var(--accent); }
+  .bc-sep { color:var(--border); font-size:16px; }
+  .bc-cur { color:var(--text); font-size:13px; opacity:0.5; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:320px; }
+
+  /* HERO */
+  .hero-wrap {
+    position:relative; overflow:hidden;
+    min-height:480px;
+  }
+  .hero-bg {
+    position:absolute; inset:0;
+    background-size:cover; background-position:center;
+    filter:blur(28px) brightness(0.18) saturate(0.4);
+    transform:scale(1.15); z-index:0;
+  }
+  .hero-overlay {
+    position:absolute; inset:0;
+    background:linear-gradient(to bottom, rgba(8,12,20,0.1) 0%, rgba(8,12,20,0.7) 60%, #080c14 100%);
+    z-index:1;
+  }
+  .hero-inner {
+    position:relative; z-index:2;
+    max-width:1100px; margin:0 auto;
+    padding:60px 40px 50px;
+    display:grid; grid-template-columns:260px 1fr; gap:48px;
+  }
+
+  /* POSTER */
+  .poster-img {
+    width:100%; border-radius:12px; display:block;
+    box-shadow:0 24px 80px rgba(0,0,0,0.8);
+    border:1px solid rgba(255,255,255,0.06);
+  }
+  .poster-ph {
+    width:100%; aspect-ratio:2/3; border-radius:12px;
+    background:linear-gradient(135deg,var(--surface2),#0a0e18);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Bebas Neue'; font-size:5rem; color:rgba(255,255,255,0.07);
+  }
+
+  /* INFO */
+  .info-col { display:flex; flex-direction:column; justify-content:flex-end; }
+
+  .genre-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+  .genre-pill {
+    padding:4px 12px; border-radius:20px;
+    background:rgba(232,184,75,0.1); color:var(--accent);
+    font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+    border:1px solid rgba(232,184,75,0.2);
+  }
+
+  .show-title {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(2.4rem,5vw,4rem);
+    letter-spacing:2px; line-height:0.95; margin-bottom:8px;
+  }
+  .show-tagline { color:var(--accent); font-style:italic; font-size:14px; margin-bottom:28px; opacity:0.8; }
+
+  .stats-row {
+    display:flex; gap:32px; flex-wrap:wrap;
+    padding-bottom:24px; margin-bottom:24px;
+    border-bottom:1px solid var(--border);
+  }
+  .stat-val { font-family:'Bebas Neue',sans-serif; font-size:1.7rem; letter-spacing:0.05em; line-height:1; color:var(--accent); }
+  .stat-val.green { color:#2ed573; }
+  .stat-val.red   { color:#ff4757; }
+  .stat-lbl { font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-top:3px; }
+
+  .action-row { display:flex; gap:12px; flex-wrap:wrap; }
+
+  .btn-gold {
+    background:var(--accent); color:#000;
+    font-weight:700; font-size:13px; letter-spacing:1px; text-transform:uppercase;
+    padding:13px 28px; border-radius:8px; border:none; cursor:pointer;
+    transition:all 0.2s; display:inline-flex; align-items:center; gap:8px;
+    text-decoration:none;
+  }
+  .btn-gold:hover { background:#f0c84e; transform:translateY(-1px); }
+  .btn-gold.outline { background:transparent; color:var(--accent); border:1px solid rgba(232,184,75,0.4); }
+  .btn-gold.outline:hover { background:rgba(232,184,75,0.1); transform:translateY(-1px); }
+  .btn-gold.saved { background:var(--surface2); color:var(--accent); border:1px solid rgba(232,184,75,0.4); }
+  .btn-ghost {
+    background:rgba(255,255,255,0.06); color:var(--text);
+    border:1px solid var(--border);
+    font-size:13px; font-weight:500;
+    padding:13px 28px; border-radius:8px; cursor:pointer;
+    transition:all 0.2s; display:inline-flex; align-items:center; gap:8px;
+    text-decoration:none;
+  }
+  .btn-ghost:hover { background:rgba(255,255,255,0.1); color:var(--text); }
+
+  /* BODY */
+  .body-wrap {
+    max-width:1100px; margin:0 auto;
+    padding:48px 40px 80px;
+    display:grid; grid-template-columns:1fr 300px; gap:48px;
+  }
+
+  .sec-title {
+    font-family:'Bebas Neue',sans-serif; letter-spacing:1.5px;
+    color:var(--accent); font-size:13px; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:14px;
+  }
+  .sec-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .summary-p { color:var(--muted); font-size:14px; line-height:1.9; margin-bottom:36px; }
+
+  .meta-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:36px; }
+  .meta-item label { display:block; font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:4px; }
+  .meta-item span { font-size:14px; color:var(--text); font-weight:500; }
+
+  /* SIDEBAR */
+  .sidebar-box {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; padding:20px; margin-bottom:16px;
+  }
+
+  .rating-big { text-align:center; padding:8px 0 12px; }
+  .rating-num { font-family:'Bebas Neue',sans-serif; font-size:4.5rem; color:var(--accent); letter-spacing:2px; line-height:1; }
+  .rating-stars { color:var(--accent); font-size:18px; letter-spacing:4px; margin:6px 0; }
+  .rating-sub { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:1px; }
+
+  .status-indicator { display:flex; align-items:center; gap:10px; font-size:14px; margin-bottom:14px; }
+  .dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+  .dot.running { background:#2ed573; box-shadow:0 0 10px rgba(46,213,115,0.5); }
+  .dot.ended   { background:#ff4757; }
+  .dot.other   { background:var(--muted); }
+
+  .sidebar-meta { display:flex; flex-direction:column; gap:10px; }
+  .sm-row { display:flex; justify-content:space-between; align-items:center; font-size:13px; border-bottom:1px solid var(--border); padding-bottom:8px; }
+  .sm-row:last-child { border-bottom:none; padding-bottom:0; }
+  .sm-lbl { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.6px; }
+  .sm-val { color:var(--text); font-weight:500; }
+
+  /* LOADER / ERROR */
+  .page-loader { min-height:80vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; color:var(--muted); }
+  .spinner { width:48px; height:48px; border:2px solid rgba(232,184,75,0.15); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; }
+  .spinner-lbl { font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:3px; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  .err-state { min-height:80vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; text-align:center; }
+  .err-state h3 { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:2px; color:var(--muted); }
+  .err-state p { color:var(--muted); font-size:14px; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.08); border-radius:3px; }
+
+  /* RESPONSIVE */
+  @media (max-width:900px) {
+    .hero-inner { grid-template-columns:180px 1fr; gap:28px; padding:40px 20px; }
+    .body-wrap  { grid-template-columns:1fr; padding:28px 20px 60px; gap:24px; }
+    .sidebar { order:-1; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .sidebar-box { margin-bottom:0; }
+    header { padding:0 20px; }
+    .back-bar { padding:14px 20px; }
+  }
+  @media (max-width:580px) {
+    .hero-inner { grid-template-columns:1fr; }
+    .poster-wrap { max-width:160px; }
+    .sidebar { grid-template-columns:1fr; }
+    .show-title { font-size:2.4rem; }
+    .stats-row { gap:20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="movies.html" class="logo">CINÉ<span>MA</span></a>
+  <nav>
+    <a class="nav-btn" href="movies.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Catalog
+    </a>
+    <button class="nav-btn" onclick="window.location.href='movies.html'">
+      Watchlist <span class="watchlist-badge" id="wlBadge">0</span>
+    </button>
+  </nav>
+</header>
+
+<!-- BACK BAR -->
+<div class="back-bar">
+  <button class="back-btn" onclick="history.back()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m19 12H5M12 5l-7 7 7 7"/></svg>
+    Back
+  </button>
+  <span class="bc-sep">/</span>
+  <span class="bc-cur" id="bcTitle">Loading&#8230;</span>
+</div>
+
+<!-- ROOT -->
+<div id="root">
+  <div class="page-loader">
+    <div class="spinner"></div>
+    <span class="spinner-lbl">Loading</span>
+  </div>
+</div>
+
+<script src="details.js"></script>
+</body>
+</html>
